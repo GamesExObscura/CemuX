@@ -5,8 +5,8 @@ option(MACOS_BUNDLE "The executable when built on macOS will be created as an ap
 option(ALLOW_PORTABLE "Allow Cemu to be run in portable mode" ON)
 
 # used by CI script to set version:
-set(EMULATOR_VERSION_MAJOR "0" CACHE STRING "")
-set(EMULATOR_VERSION_MINOR "0" CACHE STRING "")
+set(EMULATOR_VERSION_MAJOR "1" CACHE STRING "")
+set(EMULATOR_VERSION_MINOR "1" CACHE STRING "")
 set(EMULATOR_VERSION_PATCH "0" CACHE STRING "")
 
 set(THREADS_PREFER_PTHREAD_FLAG true) # needs to be set before vcpkg

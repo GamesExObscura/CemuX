@@ -105,7 +105,6 @@ std::string _curlUrlUnescape(CURL* curl, std::string_view input)
 
 // CemuX update check: asks the GamesExObscura/CemuX GitHub releases for the latest tag.
 // It only reports that a newer release exists; it never downloads or installs anything.
-#define CEMUX_VERSION_STRING "1.0.0"
 
 static bool _parseVersionTuple(std::string_view text, int (&out)[3])
 {
@@ -137,7 +136,7 @@ bool CemuUpdateWindow::QueryUpdateInfo(std::string& downloadUrlOut, std::string&
 	if (!curl)
 		return false;
 	curl_easy_setopt(curl, CURLOPT_URL, "https://api.github.com/repos/GamesExObscura/CemuX/releases/latest");
-	curl_easy_setopt(curl, CURLOPT_USERAGENT, "CemuX-update-check/" CEMUX_VERSION_STRING);
+	curl_easy_setopt(curl, CURLOPT_USERAGENT, "CemuX-update-check/" EMULATOR_VERSION_NUMBER);
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
@@ -170,7 +169,7 @@ bool CemuUpdateWindow::QueryUpdateInfo(std::string& downloadUrlOut, std::string&
 	std::string tag = buffer.substr(pos + 1, end - pos - 1);
 
 	int latest[3], current[3];
-	if (!_parseVersionTuple(tag, latest) || !_parseVersionTuple(CEMUX_VERSION_STRING, current))
+	if (!_parseVersionTuple(tag, latest) || !_parseVersionTuple(EMULATOR_VERSION_NUMBER, current))
 		return false;
 	for (int i = 0; i < 3; i++)
 	{

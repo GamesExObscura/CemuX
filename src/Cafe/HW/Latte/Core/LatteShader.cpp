@@ -41,6 +41,55 @@
 
 namespace
 {
+	void ApplyTekkenSnoopBloomFix(const LatteDecompilerShader& shader, std::string& source)
+	{
+		// EU and US v32 share the same updated executable and stage composite.
+		if (shader.shaderType != LatteConst::ShaderType::Pixel ||
+			shader.baseHash != 0xad2dbb3614be83bcull || shader.auxHash != 0x79249ull ||
+			g_renderer->GetType() != RendererAPI::Vulkan ||
+			CafeSystem::GetForegroundTitleVersion() != 32 || CafeSystem::GetRPXHashUpdated() != 0xa7b0d70f)
+			return;
+		const auto titleId = CafeSystem::GetForegroundTitleId();
+		if (titleId != 0x000500001010f800ull && titleId != 0x0005000010110000ull)
+			return;
+
+		constexpr std::string_view glareSample = "R3f.xyz = (texture(textureUnitPS4, vec2(R0f.x,R0f.y)).xyz);";
+		constexpr std::string_view colorExport = "passPixelColor0 = vec4(R1f.x, R1f.y, R1f.z, R1f.w);";
+		const auto glare = source.find(glareSample);
+		const auto output = source.find(colorExport);
+		if (glare == std::string::npos || output == std::string::npos || glare >= output ||
+			source.find(glareSample, glare + glareSample.size()) != std::string::npos ||
+			source.find(colorExport, output + colorExport.size()) != std::string::npos)
+		{
+			cemuLog_log(LogType::Force, "Tekken Tag Tournament 2 bloom fix skipped: unexpected composite shader");
+			return;
+		}
+
+		// The game reuses this shader. Only the captured stage's exposure and tint
+		// enable the glare reduction and the smooth rolloff for bright colors.
+		source.insert(output, R"GLSL(if (cemuxReduceSnoopHighlights)
+{
+    float peak = max(R1f.r, max(R1f.g, R1f.b));
+    const float knee = 0.75;
+    if (peak > knee)
+    {
+        float excess = peak - knee;
+        float compressed = knee + (1.0 - knee) * excess / (excess + (1.0 - knee));
+        R1f.rgb *= compressed / peak;
+    }
+}
+)GLSL");
+		source.insert(glare + glareSample.size(), R"GLSL(
+bool cemuxReduceSnoopHighlights =
+    uf_remappedPS[0].x == floatBitsToInt(2.0) &&
+    uf_remappedPS[1].x == floatBitsToInt(0.8) &&
+    all(equal(uf_remappedPS[2], floatBitsToInt(vec4(0.325, 0.2, 0.1, 0.5)))) &&
+    uf_remappedPS[5].x == floatBitsToInt(3.4);
+if (cemuxReduceSnoopHighlights)
+    R3f.xyz *= 0.5;)GLSL");
+		cemuLog_log(LogType::Force, "Applied Tekken Tag Tournament 2 Snoop Dogg stage bloom fix to the Vulkan composite shader");
+	}
+
 	bool IsCompatibilityTargetTextureActive()
 	{
 		if (!CompatibilityDiagnostics::IsEnabled("draw", CafeSystem::GetForegroundTitleId()))
@@ -381,7 +430,10 @@ void LatteShader_CreateRendererShader(LatteDecompilerShader* shader, bool compil
 		shader->isCustomShader = true;
 	}
 	else
+	{
 		shaderSrc.assign(shader->strBuf_shaderSource->c_str());
+		ApplyTekkenSnoopBloomFix(*shader, shaderSrc);
+	}
 
 	if (shaderType == RendererShader::ShaderType::kVertex &&
 		(shader->baseHash == 0x15bc7edf9de2ed30 || shader->baseHash == 0x83a697d61a3b9202 ||

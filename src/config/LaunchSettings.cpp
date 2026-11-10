@@ -1,5 +1,6 @@
 #include "LaunchSettings.h"
 #include "SessionRestart.h"
+#include "Common/version.h"
 
 #include "util/helpers/helpers.h"
 #include "Cafe/Account/Account.h"
@@ -140,13 +141,7 @@ bool LaunchSettings::HandleCommandline(const std::vector<std::wstring>& args)
 		if (vm.count("version"))
 		{
 			requireConsole();
-			std::string versionStr;
-#if EMULATOR_VERSION_PATCH == 0
-			versionStr = fmt::format("{}.{}{}", EMULATOR_VERSION_MAJOR, EMULATOR_VERSION_MINOR, EMULATOR_VERSION_SUFFIX);
-#else
-			versionStr = fmt::format("{}.{}-{}{}", EMULATOR_VERSION_MAJOR, EMULATOR_VERSION_MINOR, EMULATOR_VERSION_PATCH, EMULATOR_VERSION_SUFFIX);
-#endif
-			std::cout << versionStr << std::endl;
+			std::cout << BUILD_VERSION_STRING << std::endl;
 			return false; // exit in main
 		}
 

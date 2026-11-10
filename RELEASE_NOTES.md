@@ -1,3 +1,10 @@
+# CemuX v1.1.0 (Windows x64)
+
+- **Tekken Tag Tournament 2 Wii U Edition:** Fixed stale fighter costume previews when switching characters on the US and European v32 updates. The fix is automatic for matching game builds and textures.
+- **Snoop Dogg stage:** Reduced excessive bloom on gold scenery when using Vulkan on the US and European v32 updates. CemuX applies the fix automatically; no graphics pack is needed.
+
+Extract the complete ZIP before running `CemuX.exe`. The usual Cemu user-data location and your console language setting still apply.
+
 # CemuX v1.0.0 (Windows x64)
 
 CemuX is a Wii U emulator derived from Cemu (created by Exzap and the Cemu developers), with game fixes, native Wii U menu support, expanded Wii Remote support, amiibo, and a built-in link to AzaharX for Wii U / 3DS games.

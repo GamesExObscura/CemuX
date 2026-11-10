@@ -108,6 +108,22 @@ uint32 LatteTexture_CalculateTextureDataHash(LatteTexture* hostTexture)
 
 	uint32 memRange = hostTexture->texDataPtrHigh - hostTexture->texDataPtrLow;
 	uint32* texDataU32 = (uint32*)memory_getPointerFromPhysicalOffset(hostTexture->texDataPtrLow);
+	if (!hostTexture->isUpdatedOnGPU &&
+		hostTexture->format == Latte::E_GX2SURFFMT::BC3_UNORM &&
+		hostTexture->tileMode == Latte::E_HWTILEMODE::TM_2D_TILED_THIN1 &&
+		hostTexture->width == 124 && hostTexture->height == 304 && hostTexture->pitch == 32 &&
+		hostTexture->depth == 1 && hostTexture->mipLevels == 1 && memRange == 40960 &&
+		CafeSystem::GetForegroundTitleVersion() == 32 &&
+		CafeSystem::GetRPXHashUpdated() == 0xa7b0d70f)
+	{
+		const auto titleId = CafeSystem::GetForegroundTitleId();
+		if (titleId == 0x000500001010f800ull || titleId == 0x0005000010110000ull)
+		{
+			// Fighter switches replace the CPU-authored previews without changing
+			// the BC3 blocks sampled by the normal texture cache hash.
+			return CalculateFullTextureDataHash(reinterpret_cast<const uint8*>(texDataU32), memRange);
+		}
+	}
 	if (DigMapCache::NeedsFullHash(CafeSystem::GetForegroundTitleId(), CafeSystem::GetForegroundTitleVersion(),
 		CafeSystem::GetRPXHashUpdated(), hostTexture->width, hostTexture->height, hostTexture->depth,
 		static_cast<uint32>(hostTexture->format), static_cast<uint32>(hostTexture->tileMode),
