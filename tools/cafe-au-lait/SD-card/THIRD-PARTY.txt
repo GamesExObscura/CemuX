@@ -1,0 +1,48 @@
+CAFE AU LAIT - PRIVATE BUILD ATTRIBUTION
+
+Dumpling: https://github.com/dumpling-app/dumpling
+MIT; LICENSE-DUMPLING.txt included. This project uses its dump layout/system
+selection as the foundation. The new console LAN service is not the unmodified
+Dumpling application. Original Dumpling source is preserved in the sibling
+artifacts/dumpling-system-import-20261103/source tree.
+
+libmocha: https://github.com/wiiu-env/libmocha
+LGPL-3.0; LICENSE-LIBMOCHA.txt included. Used for existing CFW API access and
+read-only console identity/FSA permission calls. Corresponding source and
+build objects are preserved in the sibling libmocha-source tree. No new
+exploit, firmware installer or SEEPROM write routine is called here. V0.2.1
+adds a normal WUT FSA mount for SLC after a per-client Mocha access grant;
+libmocha's general writable POSIX devoptab remains unused.
+
+WUT/libwhb: https://github.com/devkitPro/wut
+Zlib license; LICENSE-WUT.txt included. Standard console display, application
+lifecycle, filesystem read and socket APIs. SDK distribution is preserved in
+the sibling sdk/opt/devkitpro/wut tree. Storage-devoptab initialization is
+intentionally replaced by Cafe au Lait's own empty hooks.
+WUT reference: libraries/libwhb/src/console.c (initialization returns FALSE).
+
+SHA-256: https://github.com/B-Con/crypto-algorithms
+Brad Conte's public-domain sha256.c/.h; acknowledgement retained in the files.
+Local change: input bytes cast to WORD before left shifts to avoid signed-shift
+undefined behavior. Used for corruption detection, not peer authentication,
+encrypted transfer, passwords, signatures or secret-dependent crypto operations.
+
+FTPiiU: https://github.com/wiiu-env/ftpiiu_plugin
+API/lifecycle and SLC filesystem-mount reference; its FTP server is NOT bundled
+or copied into the new Cafe au Lait console translation unit. Cafe au Lait
+uses the same FSA mount primitive and GLOBAL flag at an owned private target,
+without libmocha's writable POSIX devoptab. No writable FTP service exists.
+
+Cemu: created by Exzap and the Cemu developers (upstream of CemuX)
+GPL-2.0; the private Cemu source, its original LICENSE.txt and build inputs are
+available in cemu-source. Cemu's private patch adds a Tools launcher and build
+label only; it does not change the accepted emulation fixes.
+
+PowerPC compiler/runtime and native ELF/WUHB packaging use the retained
+devkitPro toolchain and corresponding source/license trees. This is a local
+private test package, not a public release or a license-complete distribution
+proposal. Audit source/license redistribution before publishing packages.
+
+No Nintendo system binaries, fonts, account files, keys or console identity
+are included in the SD ZIP. Existing user shared-font files are excluded from
+the private runtime copy manifest. Each user must dump their OWN system data.

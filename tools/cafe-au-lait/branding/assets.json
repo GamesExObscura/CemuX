@@ -1,0 +1,29 @@
+{
+  "selected_concept": "French bowl",
+  "original_sha256": "2BBAF0F05D88EFDB686ADE5424BE6AF93C12684585C8C1016380B0A8557ECA40",
+  "source": "branding/concepts-20261104/concept-2-french-bowl.png",
+  "adaptation": "Host-side size/format conversion only; original aspect ratio preserved; no crop or new generated art",
+  "assets": [
+    {
+      "name": "icon",
+      "width": 128,
+      "height": 128,
+      "png_sha256": "2E44DC8428D35014F6ED808D62702699FF032E1BDAB6C63AF4E388821DDA8B52",
+      "tga_sha256": "B54D2B0A7E5801101DC86F3B0A38F278F1E4506EF6F01F937EDC5CAABF03A671"
+    },
+    {
+      "name": "boot-tv",
+      "width": 1280,
+      "height": 720,
+      "png_sha256": "29BE5E8C5174CEFDC5E0C5A76C1A08187DE326ABA1E987C4EAF087556720E8E7",
+      "tga_sha256": "D7497DE496CB0B691686043274F7FCF832BE8DA1A298D7ABDC3BD78E92850B5A"
+    },
+    {
+      "name": "boot-drc",
+      "width": 854,
+      "height": 480,
+      "png_sha256": "966CB08A174F2D78BD129D7D769B7571BE544F2F119A111B1D2E19C99883AD51",
+      "tga_sha256": "A0878C4C46478850102FDD0DF0867D973135E00366E7DFD5D783B1F31B58D14A"
+    }
+  ]
+}

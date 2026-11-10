@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>Cafe au Lait</name>
+  <coder>Dumpling-based private setup tool</coder>
+  <version>0.2.2-slc-global-private</version>
+  <short_description>Read-only full MLC and Pretendo setup</short_description>
+  <long_description>Requires existing compatible Aroma/Tiramisu/Mocha services. Select your linked PNID, connect from PC, compare the code and approve. Copies the FULL mounted internal MLC, including every file, empty folder, internal game, save and account, plus OTP/SEEPROM and six selected native libraries. Uses the libmocha/FTPiiU GLOBAL filesystem mount flag at an owned private SLC path if existing aliases are unavailable. File operations are read-only. No uploads, formatting, installation or raw NAND operations. Trusted-LAN private test is not encrypted; never expose it online.</long_description>
+</app>

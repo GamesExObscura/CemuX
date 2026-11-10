@@ -1,0 +1,147 @@
+CAFE AU LAIT 0.2.2 - CURRENT SAFETY SCOPE (2026-11-06)
+
+Full mounted internal MLC is now explicitly requested. All files, internal
+games/saves/accounts, tickets and empty folders are copied READ-ONLY from the
+console and placed only in a NEW private PC profile. No originals or main
+Cemu data are overwritten. No console file-write/remove/rename, raw NAND,
+firmware/title installation or OTP/SEEPROM write operations exist.
+Own FSA client uses a per-client filesystem permission grant; code operations
+are read-only, but the grant is not a hardware-enforced read-only sandbox.
+Six selected libraries use existing aliases when available. Otherwise the
+app uses FSAMount on its own unlocked FSA client: source /dev/slc01, private
+target /vol/storage_cal_slc01, FSA_MOUNT_FLAG_GLOBAL_MOUNT as libmocha/FTPiiU
+uses. The prior LOCAL flag returned a permission error on the user's console.
+The private target is visible in the global filesystem namespace while owned;
+no existing mount path is overwritten or adopted. This is a normal
+filesystem mount, not a raw block-device open/read. WUT does not expose a
+hardware-enforced read-only mount flag here; all app file opens use mode "r"
+and the linked console program has no file-write/format/install/raw IO APIs.
+The mount is owned only after FSAMount succeeds; failure or ALREADY_EXISTS
+does not adopt or unmount anything. Handles close before the owned mount is
+released with FSA_UNMOUNT_FLAG_NONE, then the client is deleted. No force or
+unmount of any unowned path is used. Cleanup runs on cancellation and exceptions.
+Unmount failures are reported to OSReport; client deletion is still attempted.
+No existing system/FTPiiU mount, MLC mount, SD mount or USB mount is removed.
+No zero-crash/zero-brick guarantee is possible; OS/CFW background writes and
+fatal/assert behavior are outside proof that homebrew can never crash.
+
+V2 integrity: explicit directory/file records, per-entry SHA256, inventory
+hash, exact entry/byte totals, final marker and complete PC manifest coverage.
+Partial old-v1 exports cannot be received/imported as the new full setup.
+Unicode paths and empty directories preserved. Unsafe Windows names, links,
+duplicates, type collisions, missing/corrupt entries and resource overruns
+fail explicitly instead of being omitted. Entry limit250000, charged metadata
+64MiB, path480UTF8bytes, depth64, file<=4294967295bytes, total<=1TiB. These
+bounded limits prevent unbounded console RAM use. Data buffer32KiB. Network
+waits cancel/timeout; FSA/OS calls still depend on firmware behavior.
+
+PC data is restricted to current user/SYSTEM in new credential folders. A
+selected storage folder is supported and enough space for two full copies
+is required. The complete MLC retains all accounts unchanged; the selected
+PNID is configured for Pretendo in the PRIVATE setup only. No identity is
+created/relinked. No account credentials or system/game files ship in ZIP.
+This is a logical file copy, not raw NAND or an atomic filesystem snapshot.
+Use trusted private LAN only; plaintext transfer remains explicitly approved.
+
+Software checks and PowerPC symbol audit do not prove final v0.2.2 hardware,
+full real-console dump, native Menu or Pretendo authentication. User testing
+is still needed. Old v0.1 user launch/partial-copy results are historical only.
+No emulator/console was launched by agent during this update. Main1174hashes
+are checked. See tests/full-mlc-result.json and tests/slc-access-20261106/result.json
+for synthetic transfer evidence and mocked SLC lifecycle/source checks.
+
+V0.1 HISTORICAL SAFETY NOTES BELOW - NOT CURRENT COPY-SCOPE INSTRUCTIONS
+Private test; user verified Wii U launch/B-exit and a completed LAN copy.
+Imported native Menu/account and online operation remain UNVERIFIED.
+Latest private runtime log loads nn_sl and native ErrEula but still reports
+1579999. This is NOT Menu-ready. The earlier 925 matching title files covered
+the export allowlist only; they did not establish complete system-MLC coverage.
+An independent full system-only scope audit found 1093 main-only title files,
+including omitted applications and additional/incomplete legacy title paths.
+No such titles were blindly copied and no startup root cause is yet proven.
+
+NO ZERO-RISK PROMISE
+No untested homebrew can honestly be guaranteed never to crash or brick a
+console. These checks reduce risk; they do not certify hardware safety.
+Read-only access removes this app's intentional persistent-storage write path,
+but does not prove the absence of memory, lifecycle, firmware or library bugs.
+Existing custom firmware and its services are prerequisites, not installed by
+this application. Normal OS/CFW background behavior is outside this app's code.
+
+CONSOLE OPERATIONS INCLUDED
+- Standard WUT ProcUI lifecycle, on-screen console, VPAD reads and network IO.
+- Own FSA client with libmocha's per-client read-access permission grant.
+  This is a runtime access grant, not a persistent system setting.
+- Fixed allowlist of mounted MLC system files, selected account and system state.
+- Six exact native RPL paths read through existing mounted SLC aliases only.
+  No new mount, raw NAND read or general SLC export is performed.
+- FSA directory/stat/read-only file access, with explicit mode "r".
+- OTP and SEEPROM READ calls into aligned temporary memory, after approval.
+- Standard application/menu exit. No forced shutdown or reboot operation.
+
+CONSOLE OPERATIONS EXCLUDED
+- No game/save deletion, arbitrary path access, network uploads or file writes.
+- No storage mount/unmount, raw block-device access, SD/USB writing or formatting.
+- No title/firmware installation, restore, SEEPROM/OTP writes or exploit payload.
+- No change to persistent account, network or firmware settings.
+- General WUT storage-devoptab startup is overridden with empty hooks; the app
+  uses direct read-only FSA calls, not a writable mounted POSIX filesystem.
+
+BOUNDARIES AND ERROR HANDLING
+Same private subnet only; one approved PC; fixed 40-byte opening request.
+The PC cannot choose console paths or send filesystem commands.
+Physical A approval is required before collecting/exporting system credentials.
+File count <=20,000; directory visits <=20,000; depth <=16; paths <=480 ASCII
+characters; file <=256 MiB; snapshot <=2 GiB; 32 KiB streaming buffer.
+Linked/encrypted entries, unexpected filenames and mismatched file sizes fail.
+Cancelled/disconnected/oversized/partial transfers never become complete imports.
+Network waits poll cancellation and have deadlines. Native FSA/OS calls still
+depend on firmware behavior and cannot be certified hang-free without hardware.
+Only the current user and SYSTEM receive access to new credential directories.
+
+CHECKS COMPLETED
+- PowerPC RPX/WUHB build and linked-symbol audit: no listed storage-write,
+  install, formatting, mount/unmount or exploit entry points in the final ELF.
+- 100,041 native SHA/protocol/path/limit/fuzz checks, with AddressSanitizer.
+- 131 C++ serializer/TCP/C# receiver integration and rejection checks.
+- 172 synthetic private-import/placement/ACL/Unicode/source-preservation checks.
+- 28 content-free title/FST/import regression checks, including malformed
+  file tables, missing content files, wrong sizes and unchanged source dumps.
+- 37 retained Cemu compatibility component tests. These are not game replays.
+- 1,174 main source/runtime/helper/settings hashes unchanged.
+- Complete real received-data import: all 846 system/account files and 259
+  runtime files copied and SHA256 verified, with source bytes/modification
+  times unchanged. Cemu was NOT launched; native Menu/online remains unverified.
+- GUI construction/render and launcher resolution checks without opening games.
+- API review checked libmocha's actual SEEPROM byte-count return behavior;
+  the app requires the full 512-byte result, not zero or a short read.
+
+LIMITED HARDWARE CLAIM
+The user reports normal launch/B-exit. A real completed LAN dump is received,
+and read-only PC validation passes after correcting the empty-content check.
+No real console identity is used in synthetic rejection/import fixtures.
+Native Menu/account/Pretendo behavior after import remains a user runtime test,
+not a proven consequence of receiving files. No full safety certification.
+The standard SDK's fatal/assert fallback remains linked; not calling storage
+writers does not mean that a software bug cannot crash the app or console.
+
+NEXT GATE
+The first imported Menu run failed with157-9999. An omitted Health and Safety
+dependency was added only to the private MLC from the user's existing owned
+system dump. Its112files were hash-verified; no account/save changes. The Wii U
+exporter/PC validator now include/require it for fresh system setups. This is
+not proof that the generic Menu error is resolved; its retest still failed.
+The resulting trace identifies missing native nn_sl/ErrEula implementations;
+their resources and Menu save databases are present. Exactly the six libraries
+in the user's working cafeLibs set were copied to private parent/helper data
+paths, with all 30 copies hash-verified. No other OS libraries were introduced.
+Seven system app identities and 813 imported system-title file hashes were
+checked; the fonts and ErrEula/keyboard/Mii/message resources are present.
+This repairs a proven deployment omission, not proof of runtime success.
+The new console exporter is built/audited but its additional read-only SLC
+library collection has NOT been tested on hardware. Previous successful
+launch/B-exit/transfer applies to the earlier app, not those new reads.
+That native-library retest has now occurred in the user's 19:11 log and still
+fails with1579999. Do not repeat the unchanged candidate as a claimed fix.
+Resolve missing system coverage and actual Menu dependency/result evidence
+first. Keep main unchanged. No system RPLs or account data ship in the archive.

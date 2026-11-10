@@ -1,0 +1,32 @@
+WII U / 3DS LINK - CEMUX AND AZAHARX
+
+1. Before starting either game, open Tools > Wii U/3DS Link in both emulators.
+2. CemuX: Host LAN/Internet with passphrase. Use the default UDP port44660,
+   and generate/copy a strong passphrase.0.0.0.0 is the local wildcard bind.
+3. AzaharX: Join LAN/Internet with passphrase. Enter the CemuX PC's numeric
+   IPv4 address, matching port and exact passphrase (minimum16 characters).
+4. Start the supported games/apps and use their original connection screens.
+5. Disable the link to return to ordinary Azahar multiplayer rooms.
+
+No separate launcher, invitation command or PowerShell step is required.
+Passphrases are session-only. Router/firewall settings and online accounts
+are not changed automatically. Do not change the local-wireless backend while
+a game is running. An existing multiplayer room must be left first; conflicting
+actions are refused rather than replacing it. Normal rooms work with link off.
+
+Verified native flows: Mii Maker, Sonic Lost World RC gadgets, Shattered Crystal
+progress unlocks in Rise of Lyric, Smash 3DS controller/custom fighters, and
+Monster Hunter3 Ultimate save transfer both ways/representative local multiplayer.
+Matching game regions/updates and each emulator's own system data are required.
+Mii wrapping needs your own mii-wrap-key.bin in Cemu's active configuration folder;
+no keys/system/game/save files are supplied in the release. Existing MH3U native
+destination-save requirements remain; no save deletion or forgery is automated.
+
+Prior private two-PC tests verified a full Smash controller match and native
+menu/IP/passphrase connection. New releases pass transport/crypto/room/focus
+software checks; fresh two-PC gameplay retesting remains a separate user check.
+The link carries native inputs/data, not the TV image. A separate video/audio
+stream (for example Sunshine/Moonlight or Parsec) is optional for viewing CemuX.
+Internet use needs a reachable host IPv4/UDP port and manual forwarding where
+required; carrier-grade NAT may prevent it. Real Internet gameplay and direct
+unmodified-console interoperability are not verified or claimed.

@@ -1,0 +1,30 @@
+CAFE AU LAIT - OWN-CONSOLE SYSTEM IMPORT (WINDOWS)
+
+File > Import Wii U System (Cafe au Lait)...
+Use the companion SD-card/wiiu/apps/cafe-au-lait folder beside this executable
+under cafe-au-lait. The console app is read-only and physically approves the
+PC using the displayed pairing code. It exports the full internal MLC and
+required own-console/account/native-library files. USB/disc volumes are not
+included. The same verified v0.2.2 app and French bowl artwork are retained.
+
+Enter the Wii U's private IPv4 address, choose local storage and explicitly
+approve trusted-LAN transfer. Credentials are plaintext on that LAN; do not
+use an untrusted network. Internet addresses/hostnames and linked destinations
+are rejected. Files/counts/manifest checksums are verified before import.
+
+Received snapshot and a separate Cemu setup are created in the chosen folder.
+Existing PC settings, saves, accounts, game files and recovery data are not
+merged over or replaced. Selected imported account is configured for Pretendo;
+that PNID must already be configured correctly on the console.
+
+Restart Cemu closes the importing instance normally, then reopens with the
+completed imported profile only after the original process exits. Startup
+failure leaves the original open. Turn the console off before using the same
+online identity in Cemu. Helpers retain their offline-account configuration.
+
+New profiles need an enabled TV output in General Settings > Audio. Empty
+TVDevice means Disabled, not the default device. GamePad volume defaults to 0.
+
+The Windows CMake build automatically packages the PC backend and companion
+SD app through tools/cafe-au-lait/PackageRuntime.ps1. No console credentials,
+keys, account dumps or games are in those source/runtime support files.

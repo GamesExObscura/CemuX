@@ -1,0 +1,11 @@
+USB BLUETOOTH PASSTHROUGH SETUP
+
+1. Connect a dedicated Classic Bluetooth USB adapter.
+2. Check its USB VID:PID in Device Manager. Use Zadig to install WinUSB for
+   that adapter only, not the one used by your regular Bluetooth devices.
+3. In Input Settings, choose Adapter USB ID..., enter that VID:PID, then
+   enable USB Bluetooth passthrough and automatic controller configuration.
+4. Press red SYNC on each new Wii Remote. Press A to reconnect saved remotes.
+   Controller slots are assigned automatically.
+
+For speaker compatibility, enable the 3 kHz option before starting the game.

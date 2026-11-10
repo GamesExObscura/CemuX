@@ -1,0 +1,15 @@
+{
+  "schema": 2,
+  "name": "Full internal Wii U MLC and Pretendo import",
+  "full_mlc": true,
+  "legacy_allowlists_are_validation_only": true,
+  "system_apps": ["10040000", "10040100", "10040200", "10047000", "10047100", "10047200", "10048000", "10048100", "10048200", "10049000", "10049100", "10049200", "1004a000", "1004a100", "1004a200", "1004b000", "1004b100", "1004b200", "1004e000", "1004e100", "1004e200"],
+  "applets": ["1001000a", "1001010a", "1001020a", "1001100a", "1001110a", "1001120a", "1001500a", "1001510a", "1001520a", "1001700a", "1001710a", "1001720a", "1006d00a", "1006d10a", "1006d20a"],
+  "shared": ["10042300", "10042400", "1004f000", "10050000", "10051000", "10052000", "10053000", "10054000", "10056000", "10057000", "10058000", "10059000", "10059100", "10059200", "1005c000", "1005f000", "10063000", "10065000", "10067000", "10067100", "10067200", "10068000", "10069000", "10069100", "10069200", "1006c000"],
+  "system_state": ["usr/save/system/mii", "usr/save/system/nim/ec"],
+  "native_libraries": ["erreula.rpl", "nn_sl.rpl", "nsyskbd.rpl", "snd_user.rpl", "snduser2.rpl", "swkbd.rpl"],
+  "slc_library_access": {"device": "/dev/slc01", "private_mount": "/vol/storage_cal_slc01", "global": true, "file_open_mode": "r", "cleanup_owned_only": true, "export_full_slc": false},
+  "never_import": ["raw_devices", "slc", "slccmpt"],
+  "never_write_console": true,
+  "never_merge_into_main": true
+}
